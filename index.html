@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rise Of Seron – Characters</title>
+  <style>
+    :root {
+      --bg-main: #020803;
+      --bg-panel: #04140a;
+      --accent-green: #19ff6a;
+      --accent-green-soft: #0f7f3a;
+      --accent-black: #000000;
+      --text-main: #e5ffe9;
+      --text-muted: #7fbf8f;
+      --border-glow: 0 0 12px rgba(25, 255, 106, 0.6);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #062012 0, #020803 45%, #000000 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-wrapper {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 20px 40px;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(25, 255, 106, 0.25);
+      padding-bottom: 18px;
+      margin-bottom: 26px;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-green);
+      text-shadow: 0 0 12px rgba(25, 255, 106, 0.8);
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .tagline {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .tagline span {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    /* Navigation / character index */
+    .character-index {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .index-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    .character-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(25, 255, 106, 0.4);
+      color: var(--accent-green);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      cursor: default;
+      background: linear-gradient(
+        135deg,
+        rgba(4, 20, 10, 0.9),
+        rgba(0, 0, 0, 0.95)
+      );
+      box-shadow: var(--border-glow);
+    }
+
+    /* Character panel */
+    .character-panel {
+      background: radial-gradient(circle at top left, #0b2615 0, #04140a 40%, #000000 100%);
+      border-radius: 18px;
+      border: 1px solid rgba(25, 255, 106, 0.35);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.9), var(--border-glow);
+      padding: 22px 22px 24px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .character-panel::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(25, 255, 106, 0.12) 0, transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(25, 255, 106, 0.08) 0, transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .character-header {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .character-name-block h2 {
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-green);
+    }
+
+    .character-name-block .alias {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .character-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.85rem;
+      text-align: right;
+    }
+
+    .meta-label {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .meta-value {
+      color: var(--accent-green);
+    }
+
+    .character-body {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 22px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 800px) {
+      .character-body {
+        grid-template-columns: 1fr;
+      }
+      .character-meta {
+        text-align: left;
+      }
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .character-description p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+
+    .character-description p strong {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .info-block {
+      border-radius: 12px;
+      border: 1px solid rgba(25, 255, 106, 0.35);
+      background: linear-gradient(
+        145deg,
+        rgba(4, 20, 10, 0.9),
+        rgba(0, 0, 0, 0.95)
+      );
+      padding: 12px 14px 14px;
+      margin-bottom: 10px;
+    }
+
+    .info-block ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .info-block li {
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .info-label {
+      color: var(--accent-green-soft);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+    }
+
+    footer {
+      margin-top: 30px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(25, 255, 106, 0.25);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .universe-label {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-green-soft);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header>
+      <div class="title-row">
+        <h1>Rise Of Seron</h1>
+        <div class="subtitle">Character Codex – Guardian Archive</div>
+      </div>
+      <p class="tagline">
+        Chronicles of <span>Seron Darkness</span> and the guardians who shape the fate of the Zavila Galaxy.
+      </p>
+    </header>
+
+    <!-- Character index -->
+    <section class="character-index">
+      <div class="index-label">Primary guardians</div>
+      <div class="character-pill">Seron Darkness</div>
+      <div class="character-pill">Kole Rogue</div>
+      <div class="character-pill">Michael Rogue</div>
+    </section>
+
+    <!-- SERON DARKNESS PANEL -->
+    <section class="character-panel">
+      <div class="character-header">
+        <div class="character-name-block">
+          <h2>Seron Darkness</h2>
+          <div class="alias">
+            The Dark Star · Hero of the Zavila Galaxy · Leader of the Guardians
+          </div>
+        </div>
+        <div class="character-meta">
+          <div>
+            <div class="meta-label">Role</div>
+            <div class="meta-value">Central Protagonist · Architect of the Rise Of Seron Universe</div>
+          </div>
+          <div>
+            <div class="meta-label">Alignment</div>
+            <div class="meta-value">Protective · Relentless · Shadow-forged Light</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="character-body">
+        <div class="character-description">
+          <div class="section-title">Lore overview</div>
+          <p>
+            <strong>Seron Darkness</strong> is the living convergence of shadow and starlight—an entity born at the
+            edge of a collapsing nebula where the Zavila Galaxy first learned what true danger meant. Known across
+            systems as <strong>The Dark Star</strong>, Seron carries a gravity of presence that bends both light and
+            destiny toward a single purpose: protection of the innocent and preservation of cosmic balance.
+          </p>
+          <p>
+            As <strong>The Hero of the Zavila Galaxy</strong>, Seron rose from obscurity, wielding power that most
+            beings could barely comprehend. Instead of ruling through fear, he chose guardianship—standing between
+            fragile worlds and the forces that would consume them.
+          </p>
+          <p>
+            Seron is also the <strong>leader of the guardians</strong>, a constellation of warriors, mystics, and
+            sentient constructs bound by oath to defend the galaxy.
+          </p>
+          <p>
+            Beyond his deeds, Seron is the <strong>creator of the Rise Of Seron Universe</strong> itself—both in
+            narrative and metaphysical terms.
+          </p>
+        </div>
+
+        <div>
+          <div class="section-title">Profile data</div>
+
+          <div class="info-block">
+            <div class="info-label">Core titles</div>
+            <ul>
+              <li>Dark Star of the Zavila Galaxy</li>
+              <li>Hero and primary defender of Zavila’s core worlds</li>
+              <li>Supreme leader of the guardian order</li>
+              <li>Foundational architect of the Rise Of Seron Universe</li>
+            </ul>
+          </div>
+
+          <div class="info-block">
+            <div class="info-label">Personality & presence</div>
+            <ul>
+              <li>Calm, calculating, and rarely impulsive.</li>
+              <li>Projects an intimidating aura, yet reassures allies.</li>
+              <li>Embraces darkness to shield others from it.</li>
+              <li>Sees the universe as a story still being written.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+<!-- KOLE ROGUE PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Kole Rogue</h2>
+      <div class="alias">
+        The Arsonist · Fireborne Clone of Seron · Wielder of the Fire Axe
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Active Guardian · Fire Combat Specialist</div>
+      </div>
+      <div>
+        <div class="meta-label">Alignment</div>
+        <div class="meta-value">Chaotic Good · Volatile · Fiercely Loyal</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Kole Rogue</strong> is one of Seron’s clones—born from the same cosmic blueprint but shaped by
+        flame instead of shadow. Where Seron is calm and gravitational, Kole is explosive, unpredictable, and
+        driven by a burning instinct that refuses to be contained.
+      </p>
+      <p>
+        Known as <strong>The Arsonist</strong>, Kole wields a standard fire axe—nothing mystical, nothing forged
+        from star-metal. Yet in his hands, it becomes a weapon of terrifying precision, amplified by his innate
+        fire abilities.
+      </p>
+      <p>
+        As an <strong>active guardian</strong>, Kole is deployed on missions requiring destructive force,
+        rapid response, and overwhelming intimidation. He is the fire Seron unleashes when shadows alone aren’t
+        enough.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Pyrokinetic control over flames and heat.</li>
+          <li>Fire-augmented melee combat.</li>
+          <li>Extreme resistance to heat and combustion.</li>
+          <li>Explosive bursts of speed during combat.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Equipment</div>
+        <ul>
+          <li>Standard fire axe (non-magical).</li>
+          <li>Heat-resistant guardian armor.</li>
+          <li>Flame-channeling gauntlets.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- MICHAEL ROGUE PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Michael Rogue</h2>
+      <div class="alias">
+        The Pocket Watch User · Temporal Clone of Seron
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Active Guardian · Temporal Operations Specialist</div>
+      </div>
+      <div>
+        <div class="meta-label">Artifact</div>
+        <div class="meta-value">Pocket Watch crafted by Grayson Talon</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Michael Rogue</strong> is a clone of Seron whose abilities revolve around a single artifact:
+        a pocket watch engineered by <strong>Grayson Talon</strong>, one of the most brilliant technomancers
+        in the Rise Of Seron Universe.
+      </p>
+      <p>
+        The watch grants Michael subtle temporal manipulation—brief rewinds, momentary freezes, and micro-adjustments
+        that allow him to survive situations no normal guardian could.
+      </p>
+      <p>
+        As an <strong>active guardian</strong>, Michael is deployed for precision missions, time-sensitive
+        operations, and scenarios where even a single second can determine the fate of an entire system.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Minor temporal rewinds (1–3 seconds).</li>
+          <li>Momentary time freezes for precision actions.</li>
+          <li>Enhanced perception during time distortion.</li>
+          <li>Instinctive danger premonition.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Equipment</div>
+        <ul>
+          <li>Pocket watch crafted by Grayson Talon.</li>
+          <li>Guardian field attire.</li>
+          <li>Temporal stabilizer band.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANDREW OVERDARK PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Andrew OverDark</h2>
+      <div class="alias">
+        The Time Breaker God · The Black Rose · Survivor of the Angelic Purges
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Time Breaker God · Former Zavara Engineer</div>
+      </div>
+      <div>
+        <div class="meta-label">Homeworld</div>
+        <div class="meta-value">OverDarkis</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Andrew OverDark</strong> was once a brilliant engineer from Zavara, known for designing temporal
+        stabilizers and chronal engines. His life changed forever during the <strong>Angelic Purges</strong>, when
+        his wife, Lydia Lasil, was murdered — an event that shattered his mortality and ignited the birth of the
+        <strong>Time Breaker God</strong>.
+      </p>
+      <p>
+        His ascension transformed him into a towering, reality-fracturing deity whose presence bends timelines
+        like soft metal. The grief he carries is woven into his power, giving him the ability to break, rewind,
+        fracture, or collapse time itself.
+      </p>
+      <p>
+        Andrew now resides on <strong>OverDarkis</strong>, a world marked by a dark green sky, blood moon, and
+        fields of Black Roses — the symbol of his rebirth and the legacy of his fallen wife.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Timeline fracture and collapse.</li>
+          <li>Chronal destruction rather than manipulation.</li>
+          <li>Reality splitting through brute temporal force.</li>
+          <li>God-tier temporal rebirth after fatal events.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Extremely tall, imposing Time Breaker form.</li>
+          <li>Driven by grief, purpose, and cosmic responsibility.</li>
+          <li>Calm but terrifying when provoked.</li>
+          <li>Holds deep reverence for Lydia’s memory.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CASEY VIGOR PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Casey Vigor</h2>
+      <div class="alias">
+        The Isotope Hero · The Last Vigor · Rage-Forged Guardian
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Isotope Warrior · Guardian Combat Specialist</div>
+      </div>
+      <div>
+        <div class="meta-label">Alignment</div>
+        <div class="meta-value">Angry · Determined · Unbreakable</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Casey Vigor</strong> is the final surviving member of the Vigor bloodline — a family wiped out
+        entirely during the purges. The trauma of losing everyone he ever knew forged him into a relentless,
+        rage-driven hero whose power is fueled by <strong>Isotope energy</strong>.
+      </p>
+      <p>
+        His isotope abilities allow him to amplify strength, speed, durability, and energy output far beyond
+        normal guardian limits. When enraged, his isotope core becomes unstable, granting him massive boosts
+        in power at the cost of physical strain.
+      </p>
+      <p>
+        Despite his anger, Casey fights to protect others so no one else suffers the fate his bloodline did.
+        His fury is not mindless — it is focused, weaponized, and aimed at preventing future purges.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Isotope energy amplification.</li>
+          <li>Massive strength and speed boosts.</li>
+          <li>Unstable rage mode with red isotope output.</li>
+          <li>Energy projection and isotope shielding.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Usually angry due to bloodline loss.</li>
+          <li>Protective of younger guardians.</li>
+          <li>Unwilling to let history repeat itself.</li>
+          <li>Has contingency forms when pushed to the brink.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HAWKBAT ROGUE PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>HawkBat Rogue</h2>
+      <div class="alias">
+        The Scarlet Elemental · Scarlet Clone of Seron · Winged Combatant
+      </div>
+    </div>
+
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Active Guardian · Elemental Combat Specialist</div>
+      </div>
+      <div>
+        <div class="meta-label">Alignment</div>
+        <div class="meta-value">Chaotic Neutral · Fierce · Unpredictable</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <!-- Lore -->
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>HawkBat Rogue</strong> is one of Seron’s clones — but unlike the others, his power manifested
+        as pure <strong>scarlet elemental energy</strong>. His body generates volatile red aura waves that
+        enhance strength, speed, and aerial maneuverability.
+      </p>
+      <p>
+        Born from Seron’s genetic blueprint but altered by cosmic instability, HawkBat developed wing-like
+        energy structures that allow him to glide, dive, and strike with terrifying precision. His scarlet
+        aura burns hot enough to melt reinforced guardian armor.
+      </p>
+      <p>
+        HawkBat is unpredictable, fierce, and often difficult for other guardians to work with. Despite this,
+        he is loyal to Seron and the guardian order — even if his methods are chaotic and explosive.
+      </p>
+    </div>
+
+    <!-- Profile -->
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Scarlet elemental energy projection.</li>
+          <li>Winged aura gliding and aerial combat.</li>
+          <li>High-speed dive attacks with explosive impact.</li>
+          <li>Scarlet overcharge mode (unstable power boost).</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Chaotic and unpredictable in battle.</li>
+          <li>Fiercely loyal to Seron despite his volatility.</li>
+          <li>Prefers aerial combat over ground engagements.</li>
+          <li>Often clashes with other guardians due to intensity.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- RAL AWAKENING PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Ral Awakening</h2>
+      <div class="alias">
+        The Crimson Swordsman · Wielder of The Crimson Fear · Fear Manipulator
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Origin</div>
+        <div class="meta-value">Varkuun Loyalty</div>
+      </div>
+      <div>
+        <div class="meta-label">Alignment</div>
+        <div class="meta-value">Stoic · Controlled · Fear-Born</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Ral Awakening</strong> is the silent terror of the guardian order — a stoic warrior forged from
+        trauma, discipline, and fear itself. His sword, <strong>The Crimson Fear</strong>, originates from
+        <strong>Varkuun Loyalty</strong>, a world known for its brutal bounty hunters and smuggling rings.
+      </p>
+      <p>
+        As a child, Ral endured severe abuse from his parents. In a moment of uncontrollable awakening, his fear
+        manipulation surged, causing him to kill them — an event that shaped his cold, emotionless demeanor.
+      </p>
+      <p>
+        Ral’s mastery of fear allows him to weaponize terror, suppress enemy morale, and manipulate emotional
+        states. He is quiet, observant, and deadly — a guardian whose presence alone can end a battle.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Fear manipulation and emotional suppression.</li>
+          <li>Crimson energy channeling through his sword.</li>
+          <li>Silent movement and stealth combat.</li>
+          <li>Psychological destabilization of enemies.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Equipment</div>
+        <ul>
+          <li>The Crimson Fear (sword from Varkuun Loyalty).</li>
+          <li>Crimson-lined guardian armor.</li>
+          <li>Fear resonance gauntlets.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SAMUEL ANDREAS PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Samuel Andreas</h2>
+      <div class="alias">
+        Wave · The Power Copier · Adaptive Guardian
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Copy Specialist · Guardian Support Combatant</div>
+      </div>
+      <div>
+        <div class="meta-label">Alignment</div>
+        <div class="meta-value">Calm · Analytical · Adaptive</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Samuel Andreas</strong>, known as <strong>Wave</strong>, is one of the most versatile guardians
+        in the Rise Of Seron Universe. His ability allows him to <strong>copy powers, weapons, and abilities</strong>
+        from other guardians simply by observing or making brief contact.
+      </p>
+      <p>
+        Wave’s power does not steal or drain — it mirrors. He can replicate nearly any ability, though only at
+        partial strength unless he trains with it. This makes him invaluable in missions requiring adaptability,
+        counter-strategy, or rapid response.
+      </p>
+      <p>
+        Samuel’s calm demeanor contrasts with the chaos of battle. He analyzes, adapts, and shifts forms faster
+        than most enemies can react.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Copies powers, weapons, and abilities from allies.</li>
+          <li>Can combine multiple copied abilities temporarily.</li>
+          <li>Enhanced reflexes during ability shifts.</li>
+          <li>Strategic combat analysis.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Calm under pressure.</li>
+          <li>Highly intelligent and observant.</li>
+          <li>Acts as a tactical support guardian.</li>
+          <li>Rarely shows emotion during missions.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- SAMUEL STARDUST PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Samuel Stardust</h2>
+      <div class="alias">
+        The Stardust Vampire · Vexx-Created · Spectral Summoner
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Spectral Summoner · Guardian Combat Specialist</div>
+      </div>
+      <div>
+        <div class="meta-label">Origin</div>
+        <div class="meta-value">Created by The Vexx Empire</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Samuel Stardust</strong> is not a traditional vampire — he is a bio-engineered creation of the
+        <strong>Vexx Empire</strong>, designed as a living weapon. His body contains stardust-infused blood,
+        granting him supernatural strength, regeneration, and spectral summoning.
+      </p>
+      <p>
+        Alex Chronos freed Samuel from Vexx control, restoring his autonomy and giving him a place among the
+        guardians. Samuel now uses his spectral abilities to fight alongside allies.
+      </p>
+      <p>
+        His summoned spectrals are star-like entities capable of independent combat, shielding, and coordinated
+        attacks.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Summons spectral star entities.</li>
+          <li>Enhanced strength and regeneration.</li>
+          <li>Stardust-infused blood granting cosmic durability.</li>
+          <li>Night vision and cosmic perception.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Quiet and mysterious.</li>
+          <li>Grateful to Alex Chronos for his freedom.</li>
+          <li>Protective of younger guardians.</li>
+          <li>Prefers fighting alongside spectrals.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ALEX CHRONOS PANEL -->
+<section class="character-panel">
+  <div class="character-header">
+    <div class="character-name-block">
+      <h2>Alex Chronos</h2>
+      <div class="alias">
+        The Chronos Sniper · Time Sniper · Memory-Restored Guardian
+      </div>
+    </div>
+    <div class="character-meta">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Temporal Sniper · Guardian Marksman</div>
+      </div>
+      <div>
+        <div class="meta-label">Origin</div>
+        <div class="meta-value">Zavara</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="character-body">
+    <div class="character-description">
+      <div class="section-title">Lore overview</div>
+      <p>
+        <strong>Alex Chronos</strong> was born in Zavara, where he lived with his brother until the
+        <strong>Vexx Empire</strong> attacked their city. During the invasion, Alex was separated from his brother
+        and captured. The Vexx Empire wiped his memories, turning him into a living weapon.
+      </p>
+      <p>
+        Seron eventually found Alex and restored his memories, freeing him from Vexx control. With his identity
+        returned, Alex became one of the most precise guardians in the order.
+      </p>
+      <p>
+        As the <strong>Chronos Sniper</strong>, Alex uses time manipulation to slow, freeze, or accelerate moments
+        during combat, allowing him to land impossible shots.
+      </p>
+    </div>
+
+    <div>
+      <div class="section-title">Profile data</div>
+
+      <div class="info-block">
+        <div class="info-label">Abilities</div>
+        <ul>
+          <li>Time-slowing sniper shots.</li>
+          <li>Temporal perception for perfect aim.</li>
+          <li>Micro time freezes for repositioning.</li>
+          <li>Enhanced reflexes during chronal focus.</li>
+        </ul>
+      </div>
+
+      <div class="info-block">
+        <div class="info-label">Traits</div>
+        <ul>
+          <li>Calm and focused.</li>
+          <li>Grateful to Seron for restoring his memories.</li>
+          <li>Protective of Samuel Stardust.</li>
+          <li>Still searching for his brother.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <footer>
+      <div class="universe-label">Rise Of Seron Universe · Guardian Archive</div>
+      <div>Entries updated: Seron Darkness, Kole Rogue, Michael Rogue.</div>
+    </footer>
+  </div>
+</body>
+</html>
